@@ -1,0 +1,17 @@
+# Build output
+build/
+*.o
+*.obj
+*.d
+*.exe
+*.out
+/dragon
+
+# Save file (final version)
+save.dat
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

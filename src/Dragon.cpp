@@ -1,6 +1,7 @@
 // Dragon.cpp - Owner: Member A
 // Stubs: getters and constructors work; everything marked TODO(A) still needs real logic.
 #include "Dragon.h"
+using namespace std;
 
 int Dragon::totalCreated = 0;
 
@@ -27,7 +28,7 @@ Dragon::Dragon(const Dragon& other)
 }
 
 Dragon::~Dragon() {
-    // TODO(A): decide on a destructor message for the report screenshot
+    cout << "[Dragon destroyed] " << name << " (" << element << ") removed from memory" << endl;
 }
 
 // ---- Getters ----

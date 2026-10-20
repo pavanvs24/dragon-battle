@@ -133,6 +133,18 @@ void Battle::enemyTurn() {
 
 void Battle::switchIfFainted(Player& who, int& active) {
     // TODO(C): move to the next living dragon (free switch)
+    // 1. if the active dragon has NOT fainted, return right away
+    if (!who.getDragon(active).isFainted()){
+        return;
+    }    
+    // 2. find the next living dragon with who.firstLivingIndex()
+    int next = who.firstLivingIndex();
+
+    // 3. if the result is not -1:
+        if (next!=-1){
+          active = next;
+          std::cout << who.getDragon(next).getName() <<" enters the battle arena!\n";  
+        }
 }
 
 bool Battle::run() {

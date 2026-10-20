@@ -180,6 +180,17 @@ void Battle::switchIfFainted(Player& who, int& active) {
 
 bool Battle::run() {
     // TODO(C): loop until one side has no living dragon; return true if the player won
-    std::cout << "[Battle not implemented yet]\n";
-    return false;
+    while (player.hasLivingDragon() && enemy.hasLivingDragon()) {
+    showStatus();
+    player.getDragon(playerActive).endTurn();
+    if (!playerTurn()){return false;}
+    switchIfFainted(enemy, enemyActive);
+    if (!enemy.hasLivingDragon()) { break; }
+    enemy.getDragon(enemyActive).endTurn();
+    enemyTurn();
+    switchIfFainted(player, playerActive);
+    if (!player.hasLivingDragon()) { break; }
+    turn++;
+}
+return player.hasLivingDragon();
 }

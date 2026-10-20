@@ -1,4 +1,5 @@
 // Battle.cpp - Owner: Member C
+#include <cstdlib>
 #include "Battle.h"
 #include "Utils.h"
 
@@ -129,6 +130,36 @@ bool Battle::playerTurn() {
 
 void Battle::enemyTurn() {
     // TODO(C): roll 1-100, rules in docs/DESIGN.md
+    std::cout << "Enemy's Turn\n";
+    Dragon& mine = enemy.getDragon(enemyActive);
+    Dragon& foe  = player.getDragon(playerActive);
+    int roll = rand() % 100 + 1;
+    bool attacking = false;
+
+    if (roll <= 70) {
+        attacking = true;
+    } else if (roll <= 90) {
+        mine.defend();
+        std::cout <<  mine.getName() << " braces for the next hit!\n";
+    } else {
+        if (enemyHealsLeft>0 && mine.getHp() < mine.getMaxHp()/2){
+            int before = mine.getHp();
+            mine.heal(30);
+            enemyHealsLeft--;
+            std::cout << mine.getName() << " heals with " << mine.getHp()-before <<" HP \n"; 
+        }
+        else {
+            attacking = true;
+        }
+    }
+
+    if (attacking) {
+            int power = mine.getMove(0).getPower();
+            int damage = mine.damageAgainst(foe,power);
+            int before = foe.getHp();
+            foe-= damage;
+            std::cout << mine.getName() << " uses " << mine.getMove(0).getName() << " on " << foe.getName() << " for " << before - foe.getHp() << " damage!\n";
+    }
 }
 
 void Battle::switchIfFainted(Player& who, int& active) {

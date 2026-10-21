@@ -1,6 +1,6 @@
-// Utils.cpp - Owner: Member D
 #include "Utils.h"
 #include <iostream>
+#include <limits>
 
 namespace Utils {
 
@@ -11,9 +11,26 @@ std::string readLine(const std::string& prompt) {
     return line;
 }
 
-int readInt(const std::string& prompt, int lo, int hi) {
-    // TODO(D): loop until valid; handle non-numeric input (cin.clear + ignore)
-    return lo;
+int readInt(const std::string& prompt, int low, int high) {
+    int value;
+    while (true) {
+        std::cout << prompt;
+        if (std::cin >> value) {
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            if (low <= value && value <= high) {
+                return value;
+            }
+            std::cout << "Pick a number between " << low << " and " << high << ".\n";
+        }
+        else {
+            if (std::cin.eof()) {
+                return low;
+            }
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cout << "That is not a number. Try again.\n";
+        }
+    }
 }
 
 std::string hpBar(int hp, int maxHp, int width) {
@@ -30,4 +47,4 @@ void pause() {
     // TODO(D)
 }
 
-}   // namespace Utils
+}

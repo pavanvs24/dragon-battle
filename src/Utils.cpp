@@ -54,7 +54,8 @@ void banner(const std::string& title) {
 }
 
 void pause() {
-    // TODO(D)
+    std::cout << "Press Enter to continue... ";
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 }
 
 }

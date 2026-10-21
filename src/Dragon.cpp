@@ -98,13 +98,17 @@ Dragon Dragon::operator++(int) {
 
 // ---- Friends ----
 std::ostream& operator<<(std::ostream& os, const Dragon& d) {
-    // TODO(A): one-line summary, e.g. Ember (Fire, Lv2) HP 70/100
-    return os << d.name;
+    return os << d.name << " (" << d.element << ", Lv" << d.level << ") HP " << d.hp << "/" << d.maxHp;
 }
 
 std::istream& operator>>(std::istream& is, Dragon& d) {
-    // TODO(A): read name, element, hp, attack, defense
-    return is;
+    is >> d.name >> d.element >> d.hp >> d.attack >> d.defense;
+    d.maxHp = d.hp;
+    d.defending = false;
+    d.moves[0] = Move("Bite", 0, 0);
+    d.moves[1] = Move("Special", 15, 3);      // TODO(A): per-element special names
+    d.level = 1;
+    return is;  
 }
 
 void showStats(const Dragon& d) {

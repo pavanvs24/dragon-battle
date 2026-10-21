@@ -1,6 +1,7 @@
 #include "Utils.h"
 #include <iostream>
 #include <limits>
+#include <algorithm>
 
 namespace Utils {
 
@@ -34,8 +35,14 @@ int readInt(const std::string& prompt, int low, int high) {
 }
 
 std::string hpBar(int hp, int maxHp, int width) {
-    // TODO(D): '#' for filled part, '-' for the rest
-    return "[" + std::string(width, '-') + "]";
+    if (hp <= 0 || maxHp <= 0)
+        return "[" + std::string(width, '-') + "]";
+    
+    int fill = hp * width / maxHp;
+    fill = std::max(fill, 1);
+    fill = std::min(fill, width);
+
+    return "[" + std::string(fill, '#') + std::string(width-fill, '-') + "]";
 }
 
 void banner(const std::string& title) {

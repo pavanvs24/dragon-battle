@@ -46,8 +46,11 @@ std::string hpBar(int hp, int maxHp, int width) {
 }
 
 void banner(const std::string& title) {
-    // TODO(D): nicer box
-    std::cout << "=== " << title << " ===\n";
+    int length = title.size();
+
+    std::cout << "+" + std::string(length + 4, '-') + "+\n"
+              << "|  " + title + "  |\n"
+              << "+" + std::string(length + 4, '-') + "+\n"; 
 }
 
 void pause() {

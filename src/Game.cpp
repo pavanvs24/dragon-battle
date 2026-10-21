@@ -1,11 +1,10 @@
-// Game.cpp - Owner: Member D
 #include "Game.h"
 #include "Battle.h"
 #include "Utils.h"
 #include <iostream>
 
 Game::Game() : catalog(nullptr), catalogSize(0), player(nullptr) {
-    // TODO(D): buildCatalog()
+    buildCatalog();
 }
 
 Game::~Game() {
@@ -14,7 +13,17 @@ Game::~Game() {
 }
 
 void Game::buildCatalog() {
-    // TODO(D): new Dragon[8] filled from the table in docs/DESIGN.md
+    catalogSize = 8;
+    catalog = new Dragon[catalogSize];
+
+    std::string name[] = {"Ember", "Aqua", "Rocky", "Gale", "Frost", "Spark", "Leafy", "Shade"};
+    std::string element[] = {"Fire", "Water", "Earth", "Air", "Ice", "Electric", "Nature", "Dark"};
+    int attack[] = {26, 20, 18, 24, 22, 28, 19, 25};
+    int defence[] = {7, 10, 14, 8, 11, 6, 12, 9};
+
+    for (int i = 0; i < catalogSize; i++) {
+        catalog[i] = Dragon(name[i], element[i], 100, attack[i], defence[i]);
+    }
 }
 
 void Game::firstRunSetup() {
@@ -51,7 +60,7 @@ Player Game::buildEnemy(int stage) const {
 }
 
 void Game::run() {
-    Utils::banner("ELEMENTAL DRAKES");
+    Utils::banner("DRAGON BATTLE");
     std::cout << "Scaffold builds and runs. Nothing is implemented yet.\n";
     // TODO(D): firstRunSetup(); mainMenu();
 }

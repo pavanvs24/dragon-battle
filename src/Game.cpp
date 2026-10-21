@@ -2,6 +2,7 @@
 #include "Battle.h"
 #include "Utils.h"
 #include <iostream>
+#include <iomanip>
 
 Game::Game() : catalog(nullptr), catalogSize(0), player(nullptr) {
     buildCatalog();
@@ -31,7 +32,39 @@ void Game::firstRunSetup() {
 }
 
 void Game::mainMenu() {
-    // TODO(D): 1 Battle 2 Breed 3 My Stable 4 How to Play 5 Exit
+    int option = 0;
+    while (option != 5) {
+        std::cout << '\n';
+        Utils::banner("MAIN MENU");
+        std::cout << "1. Battle (next stage)\n"
+             << "2. Breed Dragons\n"
+             << "3. My Stable\n"
+             << "4. How to Play\n"
+             << "5. Exit\n" << std::endl;
+        option = Utils::readInt("Pick an option: ", 1, 5);
+
+        switch (option) {
+            case 1:
+                startBattle();
+                Utils::pause();
+                break;
+            case 2:
+                breedMenu();
+                Utils::pause();
+                break;
+            case 3:
+                showStable();
+                Utils::pause();
+                break;
+            case 4:
+                howToPlay();
+                Utils::pause();
+                break;
+            case 5:
+                std::cout << "\nQuitting the Game... See Ya !\n";
+                break;
+        }
+    }
 }
 
 void Game::startBattle() {
@@ -47,7 +80,25 @@ void Game::showStable() const {
 }
 
 void Game::showCatalog() const {
-    // TODO(D)
+    std::cout << std::left
+              << std::setw(4) << "No."
+              << std::setw(12) << "Name"
+              << std::setw(12) << "Element"
+              << std::setw(8) << "HP"
+              << std::setw(8) << "ATK"
+              << std::setw(8) << "DEF" << '\n';
+    
+    std::cout << std::string(52, '-') << '\n';
+
+    for (int i = 0; i < catalogSize; i++) {
+        std::cout << std::setw(4) << i + 1
+                  << std::setw(12) << catalog[i].getName()
+                  << std::setw(12) << catalog[i].getElement()
+                  << std::setw(8) << catalog[i].getHp()
+                  << std::setw(8) << catalog[i].getAttack()
+                  << std::setw(8) << catalog[i].getDefense() 
+                  << '\n';
+    }
 }
 
 void Game::howToPlay() const {
@@ -61,6 +112,5 @@ Player Game::buildEnemy(int stage) const {
 
 void Game::run() {
     Utils::banner("DRAGON BATTLE");
-    std::cout << "Scaffold builds and runs. Nothing is implemented yet.\n";
-    // TODO(D): firstRunSetup(); mainMenu();
+    mainMenu();
 }

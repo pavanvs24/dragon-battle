@@ -112,8 +112,17 @@ std::istream& operator>>(std::istream& is, Dragon& d) {
 }
 
 void showStats(const Dragon& d) {
-    // TODO(A): full stat card using private members
-    std::cout << d << "\n";
+    cout << "=== Dragon Stats ===\n";
+    cout << "Name: " << d.name << " (" << d.element << ", Lv" << d.level << ") " << endl;
+    cout << "HP: " << d.hp << "/" << d.maxHp << endl;
+    cout << "Attack: " << d.attack << " Defense: " << d.defense << endl;
+    cout << "Power: " << d.getPower() << endl;
+    cout << "Status: " << (d.defending ? "Defending" : "Not defending") << endl;    
+    cout << "Moves:\n";
+    for (int i = 0; i < 2; ++i) {
+        cout << "  [" << i << "] " << d.moves[i].getName() << " (Power: " << d.moves[i].getPower()
+         << ", " << (d.moves[i].isReady() ? "Ready" : "Cooldown") << ")" << endl;
+    }
 }
 
 int Dragon::getTotalCreated() { return totalCreated; }

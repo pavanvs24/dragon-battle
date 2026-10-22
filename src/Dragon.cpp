@@ -73,7 +73,13 @@ int Dragon::damageAgainst(const Dragon& target, int movePower) const {
 
 // ---- Operators ----
 Dragon& Dragon::operator-=(int damage) {
-    // TODO(A): halve if defending (min 1), clamp hp at 0
+    if(defending) {
+        damage /= 2;
+        if(damage < 1) damage = 1;
+        defending = false; 
+    }
+    hp -= damage;
+    if(hp < 0) hp = 0;
     return *this;
 }
 

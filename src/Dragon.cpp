@@ -47,22 +47,27 @@ const Move& Dragon::getMove(int index) const { return moves[index]; }
 
 // ---- Actions (chainable) ----
 Dragon& Dragon::heal(int amount) {
-    // TODO(A): add amount, never above maxHp
+    hp += amount;
+    if(hp > maxHp) hp = maxHp;
     return *this;
 }
 
 Dragon& Dragon::defend() {
-    // TODO(A): set defending
+    defending = true;
     return *this;
 }
 
 Dragon& Dragon::endTurn() {
-    // TODO(A): tick both moves, clear defending when the rule says so
+    for(int i=0;i<2;i++) {
+        moves[i].tick();
+    }
+    defending = false;
     return *this;
 }
 
 Dragon& Dragon::levelUp() {
-    // TODO(A): level +1, maxHp +10, attack +2, defense +1, hp = maxHp
+    level++;maxHp += 10;
+    attack += 2;defense += 1;hp = maxHp;
     return *this;
 }
 

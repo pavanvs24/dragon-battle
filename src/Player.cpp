@@ -58,34 +58,10 @@ bool Player::breed(int i, int j) {
     if (count >= MAX_DRAGONS) return false;
 
     if (i < 0 || i >= count || j < 0 || j >= count || i == j) {
-        cout << "Error: Invalid indices for breeding" << endl;
         return false;
     }
 
-    // Rule 1: Child Name (First half of parent 1 + second half of parent 2)
-    const Dragon& parent1 = stable[i];
-    const Dragon& parent2 = stable[j];
-    string name1 = parent1.getName();
-    string name2 = parent2.getName();
-    string childName = name1.substr(0, name1.length() / 2) + name2.substr(name2.length() / 2);
-    
-    // Rule 2: Child Element
-    string childElement;
-    string element1 = parent1.getElement();
-    string element2 = parent2.getElement();
-    if (element1 == element2) {
-        childElement = element1;
-    } else {
-        childElement = element1 + "/" + element2;
-    }
-
-    // Rule 3: Child Stats (Average of parents + 2 boost; HP is average of max HP)
-    int childAttack = ((parent1.getAttack() + parent2.getAttack()) / 2) + 2;
-    int childDefense = ((parent1.getDefense() + parent2.getDefense()) / 2) + 2;
-    int childHP = (parent1.getMaxHp() + parent2.getMaxHp()) / 2;
-
-    Dragon child(childName, childElement, childAttack, childDefense, childHP);
-
+    Dragon child = stable[i] + stable[j];
     return addDragon(child);
 }
 

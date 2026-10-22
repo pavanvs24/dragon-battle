@@ -90,8 +90,19 @@ Dragon& Dragon::operator-=(int damage) {
 }
 
 Dragon Dragon::operator+(const Dragon& other) const {
-    // TODO(A): breeding rules in docs/DESIGN.md
-    return Dragon();
+    int n1 = name.length(), n2 = other.name.length();
+    std::string childName = name.substr(0, n1 / 2) + other.name.substr(n2 / 2);
+
+    std::string childElement;
+    if (element == other.element) childElement = element;
+    else childElement = element + "/" + other.element;
+
+    int childHp      = (maxHp + other.maxHp) / 2;   // average of the two maxHp (no +2)
+    int childAttack  = (attack + other.attack) / 2 + 2 ;   // average of the two attacks, then + 2
+    int childDefense = (defense + other.defense) / 2 + 2;   // average of the two defenses, then + 2
+
+    Dragon child(childName, childElement, childHp, childAttack, childDefense);
+    return child;
 }
 
 bool Dragon::operator==(const Dragon& other) const { return getPower() == other.getPower(); }

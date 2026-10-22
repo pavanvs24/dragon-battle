@@ -105,7 +105,35 @@ void Game::startBattle() {
 }
 
 void Game::breedMenu() {
-    // TODO(D)
+    if (player == nullptr)
+        return;
+    
+    int n = player->getCount();
+    showStable();
+    if (n < 2) {
+        std::cout << "\n - You need at least 2 dragons to breed\n";
+        return;
+    }
+    if (player->getCount() >= player->MAX_DRAGONS) {
+        std::cout << "\n - Your stable is full\n";
+        return;
+    }
+
+    std::cout << '\n';
+    int first = Utils::readInt("Select first parent: ", 1, n);
+    int second = Utils:: readInt("Select second parent: ", 1, n);
+    
+    if (first == second) {
+        std::cout << "\n - Same dragons cannot be bred\n";
+        return;
+    }
+    bool bred = player->breed(first-1, second-1);
+    if (!bred) {
+        std::cout << "\n - Oops, The breeding failed...\n";
+        return;
+    }
+    std::cout << "\n - A new dragon was born !\n\n";
+    showStats(player->getDragon(n));
 }
 
 void Game::showStable() const {

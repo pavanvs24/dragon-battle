@@ -5,7 +5,9 @@
 #include <iomanip>
 
 Game::Game() : catalog(nullptr), catalogSize(0), player(nullptr) {
+    std::cout << "\n[Building Catalog...]\n";
     buildCatalog();
+    std::cout << "[Catalog built successfully...]\n\n";
 }
 
 Game::~Game() {
@@ -28,7 +30,38 @@ void Game::buildCatalog() {
 }
 
 void Game::firstRunSetup() {
-    // TODO(D): ask the name, pick 2 starters (copies of catalog dragons)
+    //Trainer Name
+    std::string name;
+    while (true) {
+        name = Utils::readLine("\nEnter your trainer name: ");
+        if (name.size() == 0) {
+            name = "Trainer";
+            std::cout << "\nOK then, We will address you as Trainer :)";
+            break;
+        }
+        else if (name.size() < 3)
+            std::cout << "Name should have at least 3 characters.";
+        else if (name.size() > 10)
+            std::cout << "Name should not have more than 10 characters.";
+        else {
+            std::cout << "\nWelcome " << name << " !";
+            break;
+        }
+    }
+    player = new Player(name);
+
+    //Starter selection
+    std::cout << "\nNow, let's get your Starter Dragons set up !\n";
+    showCatalog();
+    std::cout << '\n';
+    int one = Utils::readInt("First Dragon number: ", 1, catalogSize);
+    player->addDragon(catalog[one-1]);
+    std::cout << " - " << catalog[one-1].getName() << " joined your stable !\n\n";
+    int two = Utils::readInt("Second Dragon number: ", 1, catalogSize);
+    player->addDragon(catalog[two-1]);
+    std::cout << " - " << catalog[two-1].getName() << " joined your stable !\n\n";
+
+    std::cout << "Nice... You are all Set to Go !";
 }
 
 void Game::mainMenu() {
@@ -76,10 +109,12 @@ void Game::breedMenu() {
 }
 
 void Game::showStable() const {
-    // TODO(D)
+    Utils::banner("STABLE");
+    std::cout << *player;
 }
 
 void Game::showCatalog() const {
+    std::cout << '\n';
     std::cout << std::left
               << std::setw(4) << "No."
               << std::setw(12) << "Name"
@@ -102,7 +137,12 @@ void Game::showCatalog() const {
 }
 
 void Game::howToPlay() const {
-    // TODO(D)
+    Utils::banner("HOW TO PLAY");
+    std::cout << "- Goal: beat all 3 stages by knocking out every enemy dragon\n"
+              << "- Moves: Attack, Special (3-turn cooldown), Defend (halves the next hit), Heal (+30 HP, 3 uses per battle), Switch (costs your turn)\n"
+              << "- Damage: your attack plus the move's power, minus the target's defense, with a minimum of 1\n"
+              << "- Winning a stage: your dragons level up, and the next stage unlocks\n"
+              << "- Breeding: two different dragons in your stable make a new one (max 6 dragons)\n\n";
 }
 
 Player Game::buildEnemy(int stage) const {
@@ -112,5 +152,6 @@ Player Game::buildEnemy(int stage) const {
 
 void Game::run() {
     Utils::banner("DRAGON BATTLE");
+    firstRunSetup();
     mainMenu();
 }

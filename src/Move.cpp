@@ -9,7 +9,7 @@ int  Move::getPower() const { return power; }
 bool Move::isReady() const { return cooldownLeft == 0; }
 
 void Move::use() {
-    cooldownLeft = cooldown;    // TODO(A): confirm this matches DESIGN.md
+    cooldownLeft = cooldown;    
 }
 
 void Move::tick() {

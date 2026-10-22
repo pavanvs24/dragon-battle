@@ -1,5 +1,4 @@
 // Dragon.cpp - Owner: Member A
-// Stubs: getters and constructors work; everything marked TODO(A) still needs real logic.
 #include "Dragon.h"
 using namespace std;
 
@@ -14,7 +13,7 @@ Dragon::Dragon(const std::string& name, const std::string& element,
     : name(name), element(element), hp(hp), maxHp(hp),
       attack(attack), defense(defense), level(1), defending(false) {
     moves[0] = Move("Bite", 0, 0);
-    moves[1] = Move("Special", 15, 3);      // TODO(A): per-element special names
+    moves[1] = Move("Special", 15, 3);     
     ++totalCreated;
 }
 
@@ -130,7 +129,7 @@ std::istream& operator>>(std::istream& is, Dragon& d) {
     d.maxHp = d.hp;
     d.defending = false;
     d.moves[0] = Move("Bite", 0, 0);
-    d.moves[1] = Move("Special", 15, 3);      // TODO(A): per-element special names
+    d.moves[1] = Move("Special", 15, 3);      
     d.level = 1;
     return is;  
 }

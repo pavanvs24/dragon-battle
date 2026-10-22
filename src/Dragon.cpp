@@ -72,8 +72,9 @@ Dragon& Dragon::levelUp() {
 }
 
 int Dragon::damageAgainst(const Dragon& target, int movePower) const {
-    // TODO(A): max(1, attack + movePower - target.defense)
-    return 1;
+    int damage = attack + movePower - target.defense;
+    if(damage < 1) damage = 1;
+    return damage;
 }
 
 // ---- Operators ----

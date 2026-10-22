@@ -110,13 +110,14 @@ bool Dragon::operator<(const Dragon& other) const { return getPower() < other.ge
 bool Dragon::operator>(const Dragon& other) const { return getPower() > other.getPower(); }
 
 Dragon& Dragon::operator++() {
-    // TODO(A): call levelUp()
+    (*this).levelUp();
     return *this;
 }
 
 Dragon Dragon::operator++(int) {
-    // TODO(A): return the old value, then level up
-    return *this;
+    Dragon old(*this);
+    (*this).levelUp();
+    return old;
 }
 
 // ---- Friends ----

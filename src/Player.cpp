@@ -1,8 +1,9 @@
-// Player.cpp - Owner: Member B
-// The constructor, destructor, copy constructor and operator= below are a working reference
-// so nobody crashes on a double delete while the rest of the game is built.
-// B: read them until you can explain every line in the report, then own them.
+#include <iostream>
 #include "Player.h"
+#include <stdexcept>
+#include <string>
+
+using namespace std;
 
 Player::Player(const std::string& name)
     : name(name), stable(new Dragon[2]), count(0), capacity(2), stage(1) {}
@@ -29,58 +30,94 @@ Player& Player::operator=(const Player& other) {
 
 Player::~Player() {
     delete[] stable;
+    stable = nullptr;
 }
 
 void Player::grow() {
-    // TODO(B): new[] a bigger array (cap at MAX_DRAGONS), copy, delete[] the old one
+    if (capacity >= MAX_DRAGONS) return;
+
+    int newCapacity = capacity  + 1;
+
+    Dragon* newStable = new Dragon[newCapacity];
+    for (int i = 0; i < count; ++i) {
+        newStable[i] = stable[i];
+    }
+    delete[] stable;
+    stable = newStable;
+    capacity = newCapacity;
 }
 
 bool Player::addDragon(const Dragon& d) {
-    // TODO(B): false if count == MAX_DRAGONS; call grow() when count == capacity
-    return false;
+    if (count == MAX_DRAGONS) return false;
+    if (count == capacity) grow();
+    stable[count++] = d;
+    return true;
 }
 
 bool Player::breed(int i, int j) {
-    // TODO(B): validate i != j and both in range, child = stable[i] + stable[j], addDragon(child)
-    return false;
+    if (count >= MAX_DRAGONS) return false;
+
+    if (i < 0 || i >= count || j < 0 || j >= count || i == j) {
+        return false;
+    }
+
+    Dragon child = stable[i] + stable[j];
+    return addDragon(child);
 }
 
 Dragon& Player::getDragon(int index) {
-    // TODO(B): bounds check
+    if (index < 0 || index >= count) {
+        cout << "Error: Index out of range" << endl;
+        throw std::out_of_range("Index out of range"); // can't return a reference to a non existent dragon, so throw an exception
+    }
     return stable[index];
 }
 
 const Dragon& Player::getDragon(int index) const {
-    // TODO(B): bounds check
+    if (index < 0 || index >= count) {
+        cout << "Error: Index out of range" << endl;
+        throw std::out_of_range("Index out of range"); // can't return a reference to a non existent dragon, so throw an exception
+    }
     return stable[index];
 }
 
 int Player::getCount() const { return count; }
 
 bool Player::hasLivingDragon() const {
-    // TODO(B)
-    return false;
+    return firstLivingIndex() != -1;
 }
 
 int Player::firstLivingIndex() const {
-    // TODO(B)
+    for (int i = 0; i < count; ++i) {
+        if (!stable[i].isFainted()) {
+            return i;
+        }
+    }
     return -1;
 }
 
 Player& Player::healAll() {
-    // TODO(B): level-independent full heal of every dragon
+    for (int i = 0; i < count; ++i) {
+        stable[i].heal(stable[i].getMaxHp());
+    }
     return *this;
 }
 
 const std::string& Player::getName() const { return name; }
+
 int Player::getStage() const { return stage; }
 
 Player& Player::unlockNextStage() {
-    // TODO(B): stage + 1, capped at 3
+    if (stage < 3) {
+        stage++;
+    }
     return *this;
 }
 
 std::ostream& operator<<(std::ostream& os, const Player& p) {
-    // TODO(B): name, stage and a numbered list of dragons
-    return os << p.name;
+    os << "Player: " << p.name << ", Stage: " << p.stage << ", Stable: (" << p.count << ")" << endl;
+    for (int i = 0; i < p.count; ++i) {
+        os << "Dragon " << (i + 1) << ": " << p.stable[i].getName() << endl;
+    }
+    return os ;
 }

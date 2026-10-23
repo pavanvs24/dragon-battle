@@ -1,6 +1,6 @@
 // Dragon.cpp - Owner: Member A
-// Stubs: getters and constructors work; everything marked TODO(A) still needs real logic.
 #include "Dragon.h"
+using namespace std;
 
 int Dragon::totalCreated = 0;
 
@@ -13,7 +13,7 @@ Dragon::Dragon(const std::string& name, const std::string& element,
     : name(name), element(element), hp(hp), maxHp(hp),
       attack(attack), defense(defense), level(1), defending(false) {
     moves[0] = Move("Bite", 0, 0);
-    moves[1] = Move("Special", 15, 3);      // TODO(A): per-element special names
+    moves[1] = Move("Special", 15, 3);     
     ++totalCreated;
 }
 
@@ -27,7 +27,7 @@ Dragon::Dragon(const Dragon& other)
 }
 
 Dragon::~Dragon() {
-    // TODO(A): decide on a destructor message for the report screenshot
+    cout << "[Dragon destroyed] " << name << " (" << element << ") removed from memory" << endl;
 }
 
 // ---- Getters ----
@@ -46,39 +46,62 @@ const Move& Dragon::getMove(int index) const { return moves[index]; }
 
 // ---- Actions (chainable) ----
 Dragon& Dragon::heal(int amount) {
-    // TODO(A): add amount, never above maxHp
+    hp += amount;
+    if(hp > maxHp) hp = maxHp;
     return *this;
 }
 
 Dragon& Dragon::defend() {
-    // TODO(A): set defending
+    defending = true;
     return *this;
 }
 
 Dragon& Dragon::endTurn() {
-    // TODO(A): tick both moves, clear defending when the rule says so
+    for(int i=0;i<2;i++) {
+        moves[i].tick();
+    }
+    defending = false;
     return *this;
 }
 
 Dragon& Dragon::levelUp() {
-    // TODO(A): level +1, maxHp +10, attack +2, defense +1, hp = maxHp
+    level++;maxHp += 10;
+    attack += 2;defense += 1;hp = maxHp;
     return *this;
 }
 
 int Dragon::damageAgainst(const Dragon& target, int movePower) const {
-    // TODO(A): max(1, attack + movePower - target.defense)
-    return 1;
+    int damage = attack + movePower - target.defense;
+    if(damage < 1) damage = 1;
+    return damage;
 }
 
 // ---- Operators ----
 Dragon& Dragon::operator-=(int damage) {
-    // TODO(A): halve if defending (min 1), clamp hp at 0
+    if(defending) {
+        damage /= 2;
+        if(damage < 1) damage = 1;
+        defending = false; 
+    }
+    hp -= damage;
+    if(hp < 0) hp = 0;
     return *this;
 }
 
 Dragon Dragon::operator+(const Dragon& other) const {
-    // TODO(A): breeding rules in docs/DESIGN.md
-    return Dragon();
+    int n1 = name.length(), n2 = other.name.length();
+    std::string childName = name.substr(0, n1 / 2) + other.name.substr(n2 / 2);
+
+    std::string childElement;
+    if (element == other.element) childElement = element;
+    else childElement = element + "/" + other.element;
+
+    int childHp      = (maxHp + other.maxHp) / 2;   // average of the two maxHp (no +2)
+    int childAttack  = (attack + other.attack) / 2 + 2 ;   // average of the two attacks, then + 2
+    int childDefense = (defense + other.defense) / 2 + 2;   // average of the two defenses, then + 2
+
+    Dragon child(childName, childElement, childHp, childAttack, childDefense);
+    return child;
 }
 
 bool Dragon::operator==(const Dragon& other) const { return getPower() == other.getPower(); }
@@ -86,29 +109,43 @@ bool Dragon::operator<(const Dragon& other) const { return getPower() < other.ge
 bool Dragon::operator>(const Dragon& other) const { return getPower() > other.getPower(); }
 
 Dragon& Dragon::operator++() {
-    // TODO(A): call levelUp()
+    (*this).levelUp();
     return *this;
 }
 
 Dragon Dragon::operator++(int) {
-    // TODO(A): return the old value, then level up
-    return *this;
+    Dragon old(*this);
+    (*this).levelUp();
+    return old;
 }
 
 // ---- Friends ----
 std::ostream& operator<<(std::ostream& os, const Dragon& d) {
-    // TODO(A): one-line summary, e.g. Ember (Fire, Lv2) HP 70/100
-    return os << d.name;
+    return os << d.name << " (" << d.element << ", Lv" << d.level << ") HP " << d.hp << "/" << d.maxHp;
 }
 
 std::istream& operator>>(std::istream& is, Dragon& d) {
-    // TODO(A): read name, element, hp, attack, defense
-    return is;
+    is >> d.name >> d.element >> d.hp >> d.attack >> d.defense;
+    d.maxHp = d.hp;
+    d.defending = false;
+    d.moves[0] = Move("Bite", 0, 0);
+    d.moves[1] = Move("Special", 15, 3);      
+    d.level = 1;
+    return is;  
 }
 
 void showStats(const Dragon& d) {
-    // TODO(A): full stat card using private members
-    std::cout << d << "\n";
+    cout << "=== Dragon Stats ===\n";
+    cout << "Name: " << d.name << " (" << d.element << ", Lv" << d.level << ") " << endl;
+    cout << "HP: " << d.hp << "/" << d.maxHp << endl;
+    cout << "Attack: " << d.attack << " Defense: " << d.defense << endl;
+    cout << "Power: " << d.getPower() << endl;
+    cout << "Status: " << (d.defending ? "Defending" : "Not defending") << endl;    
+    cout << "Moves:\n";
+    for (int i = 0; i < 2; ++i) {
+        cout << "  [" << i << "] " << d.moves[i].getName() << " (Power: " << d.moves[i].getPower()
+         << ", " << (d.moves[i].isReady() ? "Ready" : "Cooldown") << ")" << endl;
+    }
 }
 
 int Dragon::getTotalCreated() { return totalCreated; }

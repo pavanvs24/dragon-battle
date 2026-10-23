@@ -48,13 +48,13 @@ std::string hpBar(int hp, int maxHp, int width) {
 void banner(const std::string& title) {
     int length = title.size();
 
-    std::cout << "+" + std::string(length + 4, '-') + "+\n"
+    std::cout << "\n+" + std::string(length + 4, '-') + "+\n"
               << "|  " + title + "  |\n"
               << "+" + std::string(length + 4, '-') + "+\n"; 
 }
 
 void pause() {
-    std::cout << "Press Enter to continue... ";
+    std::cout << "\nPress Enter to continue... ";
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 }
 

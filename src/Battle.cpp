@@ -10,7 +10,7 @@ Battle::Battle(Player &player, Player &enemy)
 void Battle::showStatus() const
 {
     const Dragon &mine = player.getDragon(playerActive);
-    const Dragon &foe = player.getDragon(enemyActive);
+    const Dragon &foe = enemy.getDragon(enemyActive);
     std::cout << "--- Stage " << player.getStage() << " | Turn " << turn << " ---\n";
     std::cout << "You:   " << mine.getName() << " "
               << Utils::hpBar(mine.getHp(), mine.getMaxHp()) << " "

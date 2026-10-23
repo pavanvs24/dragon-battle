@@ -3,6 +3,9 @@
 #include "Utils.h"
 #include <iostream>
 #include <iomanip>
+#include <cstdlib>
+#include <ctime>
+
 
 Game::Game() : catalog(nullptr), catalogSize(0), player(nullptr) {
     std::cout << "\n[Building Catalog...]\n";
@@ -101,7 +104,26 @@ void Game::mainMenu() {
 }
 
 void Game::startBattle() {
-    // TODO(D): buildEnemy(stage), run a Battle, level-ups / unlockNextStage on win, healAll after
+    Utils::banner("BATTLE");
+    int stage = player->getStage();
+    Player enemy = buildEnemy(stage);
+
+    Battle b(*player, enemy);
+    bool won = b.run();
+
+    if (won) {
+        //Level up
+        for (int i = 0; i < player->getCount(); i++)
+            ++player->getDragon(i);
+        
+        player->unlockNextStage();
+        std::cout << "\n - Stage " << stage << " Cleared !";
+        std::cout << "\n - Your Dragons grew stronger !";
+    }
+    else
+        std::cout << "\n - DEFEAT...\n";
+    
+    player->healAll();
 }
 
 void Game::breedMenu() {
@@ -174,11 +196,21 @@ void Game::howToPlay() const {
 }
 
 Player Game::buildEnemy(int stage) const {
-    // TODO(D): stages in docs/DESIGN.md
-    return Player("Wild Trainer");
+    Player enemy("Wild Trainer");
+    int teamSize = (stage == 1) ? 2 : 3;
+
+    for (int i = 0; i < teamSize; i++) {
+        int selector = rand() % catalogSize;
+        enemy.addDragon(catalog[selector]);
+
+        for (int k = 0; k < stage - 1; k++)
+            ++enemy.getDragon(i);
+    }
+    return enemy;
 }
 
 void Game::run() {
+    srand(static_cast<unsigned>(time(0)));
     Utils::banner("DRAGON BATTLE");
     firstRunSetup();
     mainMenu();

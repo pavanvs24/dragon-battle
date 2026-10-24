@@ -104,13 +104,17 @@ void Game::mainMenu() {
 }
 
 void Game::startBattle() {
-    Utils::banner("BATTLE");
+    std::cout << "\n - Preparing the Battlefield...\n";
     int stage = player->getStage();
 
     int chosen[SQUAD_MAX];
     Player squad = buildSquad(SQUAD_MAX, chosen);
     Player enemy = buildEnemy(stage);
 
+    for (int s = 1; s < stage; s++)
+        squad.unlockNextStage();
+
+    Utils::banner("BATTLE");
     Battle b(squad, enemy);
     bool won = b.run();
 

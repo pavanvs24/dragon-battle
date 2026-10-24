@@ -175,8 +175,9 @@ void Battle::switchIfFainted(Player &who, int &active)
     int next = who.firstLivingIndex();
     if (next != -1)
     {   
+        std::cout << "\n - " << who.getDragon(active).getName() << " fainted!\n";
         active = next;
-        std::cout << " - " << who.getDragon(next).getName() << " enters the battle arena!\n";
+        std::cout << " - " << who.getDragon(next).getName() << " enters the battle arena!\n\n";
     }
 }
 

@@ -19,9 +19,12 @@ class Game {
         void showStable() const;
         void showCatalog() const;
         void howToPlay() const;
-        Player buildEnemy(int stage) const;     // hard-coded enemy teams for stages 1 to 3
+        Player buildSquad(int maxSize, int chosen[]);
+        Player buildEnemy(int stage) const;
 
     public:
+        static const int SQUAD_MAX = 3;
+
         Game();
         ~Game();
         Game(const Game&) = delete;             // owns raw pointers: no copying

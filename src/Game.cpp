@@ -106,24 +106,25 @@ void Game::mainMenu() {
 void Game::startBattle() {
     Utils::banner("BATTLE");
     int stage = player->getStage();
+
+    int chosen[SQUAD_MAX];
+    Player squad = buildSquad(SQUAD_MAX, chosen);
     Player enemy = buildEnemy(stage);
 
-    Battle b(*player, enemy);
+    Battle b(squad, enemy);
     bool won = b.run();
 
     if (won) {
         //Level up
-        for (int i = 0; i < player->getCount(); i++)
-            ++player->getDragon(i);
+        for (int i = 0; i < squad.getCount(); i++)
+            ++player->getDragon(chosen[i]);
         
         player->unlockNextStage();
         std::cout << "\n - Stage " << stage << " Cleared !";
-        std::cout << "\n - Your Dragons grew stronger !";
+        std::cout << "\n - Your Dragons grew stronger !\n";
     }
     else
         std::cout << "\n - DEFEAT...\n";
-    
-    player->healAll();
 }
 
 void Game::breedMenu() {
@@ -193,6 +194,32 @@ void Game::howToPlay() const {
               << "- Damage: your attack plus the move's power, minus the target's defense, with a minimum of 1\n"
               << "- Winning a stage: your dragons level up, and the next stage unlocks\n"
               << "- Breeding: two different dragons in your stable make a new one (max 6 dragons)\n\n";
+}
+
+Player Game::buildSquad(int maxSize, int chosen[]) {
+    Player squad("squad");
+    int size = (player->getCount() > maxSize) ? maxSize : player->getCount();
+    
+    showStable();
+    std::cout << '\n';
+    for (int i = 0; i < size; i++) {
+        int choice = Utils::readInt("Pick Dragon " + std::to_string(i+1) + ": ", 1, player->getCount());
+        bool duplicate = false;
+        for (int  k = 0; k < i; k++) {
+            if (chosen[k] + 1 == choice) {
+                duplicate = true;
+                break;
+            }
+        }
+        if (duplicate) {
+            std::cout << "That dragon is already selected.\n";
+            i--;
+            continue;
+        }
+        chosen[i] = choice - 1;
+        squad.addDragon(player->getDragon(choice - 1));
+    }
+    return squad;
 }
 
 Player Game::buildEnemy(int stage) const {

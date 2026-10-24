@@ -11,7 +11,7 @@ void Battle::showStatus() const
 {
     const Dragon &mine = player.getDragon(playerActive);
     const Dragon &foe = enemy.getDragon(enemyActive);
-    std::cout << "--- Stage " << player.getStage() << " | Turn " << turn << " ---\n";
+    std::cout << "\n--- Stage " << player.getStage() << " | Turn " << turn << " ---\n";
     std::cout << "You:   " << mine.getName() << " "
               << Utils::hpBar(mine.getHp(), mine.getMaxHp()) << " "
               << mine.getHp() << "/" << mine.getMaxHp() << " "
@@ -38,7 +38,7 @@ bool Battle::playerTurn()
             int damage = mine.damageAgainst(foe, power);
             int before = foe.getHp();
             foe -= damage;
-            std::cout << mine.getName() << " uses " << mine.getMove(0).getName() << " on " << foe.getName() << " for " << before - foe.getHp() << " damage!\n";
+            std::cout << "\n - " << mine.getName() << " uses " << mine.getMove(0).getName() << " on " << foe.getName() << " for " << before - foe.getHp() << " damage!\n";
             acted = true;
         }
         if (choice == 2)
@@ -50,18 +50,18 @@ bool Battle::playerTurn()
                 int before = foe.getHp();
                 foe -= damage;
                 mine.getMove(1).use();
-                std::cout << mine.getName() << " uses " << mine.getMove(1).getName() << " on " << foe.getName() << " for " << before - foe.getHp() << " damage!\n";
+                std::cout << "\n - " << mine.getName() << " uses " << mine.getMove(1).getName() << " on " << foe.getName() << " for " << before - foe.getHp() << " damage!\n";
                 acted = true;
             }
             else
             {
-                std::cout << "Special is still under cooldown!\n";
+                std::cout << "\n - " << "Special is still under cooldown!\n";
             }
         }
         if (choice == 3)
         {
             mine.defend();
-            std::cout << mine.getName() << " braces for the next hit!\n";
+            std::cout << "\n - " << mine.getName() << " braces for the next hit!\n";
             acted = true;
         }
         if (choice == 4)
@@ -71,12 +71,12 @@ bool Battle::playerTurn()
                 int before = mine.getHp();
                 mine.heal(30);
                 playerHealsLeft--;
-                std::cout << mine.getName() << " heals with " << mine.getHp() - before << " HP \n";
+                std::cout << "\n - " << mine.getName() << " heals with " << mine.getHp() - before << " HP \n";
                 acted = true;
             }
             else
             {
-                std::cout << "No heals left!\n";
+                std::cout << "\n - " << "No heals left!\n";
             }
         }
         if (choice == 5)
@@ -103,7 +103,7 @@ bool Battle::playerTurn()
             else
             {
                 playerActive = pick;
-                std::cout << "The player has picked " << player.getDragon(pick).getName() << '\n';
+                std::cout << "\n - " << "The player has picked " << player.getDragon(pick).getName() << '\n';
                 acted = true;
             }
         }
@@ -126,7 +126,7 @@ bool Battle::playerTurn()
 
 void Battle::enemyTurn()
 {
-    std::cout << "Enemy's Turn\n";
+    std::cout << "# Enemy's Turn\n";
     Dragon &mine = enemy.getDragon(enemyActive);
     Dragon &foe = player.getDragon(playerActive);
     int roll = rand() % 100 + 1;
@@ -139,7 +139,7 @@ void Battle::enemyTurn()
     else if (roll <= 90)
     {
         mine.defend();
-        std::cout << mine.getName() << " braces for the next hit!\n";
+        std::cout << " - " << mine.getName() << " braces for the next hit!\n";
     }
     else
     {
@@ -148,7 +148,7 @@ void Battle::enemyTurn()
             int before = mine.getHp();
             mine.heal(30);
             enemyHealsLeft--;
-            std::cout << mine.getName() << " heals with " << mine.getHp() - before << " HP \n";
+            std::cout << " - " << mine.getName() << " heals with " << mine.getHp() - before << " HP \n";
         }
         else
         {
@@ -162,7 +162,7 @@ void Battle::enemyTurn()
         int damage = mine.damageAgainst(foe, power);
         int before = foe.getHp();
         foe -= damage;
-        std::cout << mine.getName() << " uses " << mine.getMove(0).getName() << " on " << foe.getName() << " for " << before - foe.getHp() << " damage!\n";
+        std::cout << " - " << mine.getName() << " uses " << mine.getMove(0).getName() << " on " << foe.getName() << " for " << before - foe.getHp() << " damage!\n";
     }
 }
 
@@ -174,9 +174,9 @@ void Battle::switchIfFainted(Player &who, int &active)
     }
     int next = who.firstLivingIndex();
     if (next != -1)
-    {
+    {   
         active = next;
-        std::cout << who.getDragon(next).getName() << " enters the battle arena!\n";
+        std::cout << " - " << who.getDragon(next).getName() << " enters the battle arena!\n";
     }
 }
 

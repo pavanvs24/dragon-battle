@@ -1,10 +1,8 @@
-// Battle.h - Owner: Member C
 #ifndef BATTLE_H
 #define BATTLE_H
 
 #include "Player.h"
 
-// One fight: you versus an enemy trainer. Rules and enemy AI are in docs/DESIGN.md.
 class Battle {
 private:
     Player& player;         // references: must be set in the constructor's initializer list

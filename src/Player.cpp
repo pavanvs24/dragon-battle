@@ -2,6 +2,7 @@
 #include "Player.h"
 #include <stdexcept>
 #include <string>
+#include <iomanip>
 
 using namespace std;
 
@@ -116,8 +117,26 @@ Player& Player::unlockNextStage() {
 
 std::ostream& operator<<(std::ostream& os, const Player& p) {
     os << "Player: " << p.name << ", Stage: " << p.stage << ", Stable: (" << p.count << ")" << endl;
+    os << std::left
+       << std::setw(4) << "No."
+       << std::setw(12) << "Name"
+       << std::setw(5) << "Lvl"
+       << std::setw(10) << "HP"
+       << std::setw(6) << "ATK"
+       << std::setw(6) << "DEF"
+       << std::setw(18) << "Element" << endl;
+
+    os << std::string(60, '-') << endl;
+
     for (int i = 0; i < p.count; ++i) {
-        os << "Dragon " << (i + 1) << ": " << p.stable[i].getName() << endl;
+        os << std::left
+           << std::setw(4) << i + 1
+           << std::setw(12) << p.stable[i].getName()
+           << std::setw(5) << p.stable[i].getLevel()
+           << std::setw(10) << std::to_string(p.stable[i].getHp()) + "/" + std::to_string(p.stable[i].getMaxHp())
+           << std::setw(6) << p.stable[i].getAttack()
+           << std::setw(6) << p.stable[i].getDefense()
+           << std::setw(18) << p.stable[i].getElement() << endl;
     }
     return os ;
 }

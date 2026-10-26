@@ -1,19 +1,16 @@
-# Elemental Drakes
+# Dragon Battle
 
 A turn-based, single-player, terminal dragon battler inspired by Dragon City.
 Built in C++ for the Object-Oriented Programming course project.
-
-> **Working title.** Replace it here, in `docs/DESIGN.md` and in the report once the
-> group has chosen a title that no other team in the class is using.
 
 ## Team
 
 | Member | Owns | Branch |
 |---|---|---|
-| A: _name_ | `Move`, `Dragon` | `feature/dragon` |
-| B: _name_ | `Player` | `feature/player` |
-| C: _name_ | `Battle` | `feature/battle` |
-| D: _name_ | `Game`, `Utils`, `main`, Git/CI | `feature/game` |
+| A: Vedula Laxmana Venkata Pranay | `Move`, `Dragon` | `feature/dragon` |
+| B: Lokeshwaran K | `Player` | `feature/player` |
+| C: Keerthivasan P | `Battle` | `feature/battle` |
+| D: Pavan V S | `Game`, `Utils`, `main`, Git/CI | `feature/game` |
 
 ## Build and run
 
@@ -37,8 +34,6 @@ dragon.exe
 include/   headers (the shared interface; change only via a group-approved PR)
 src/       implementations and main.cpp
 docs/      DESIGN.md (rules + screens), ISSUES.md (task list), screenshots/
-.github/   PR template and a build check that runs on every pull request
-```
 
 ## Read these first
 
@@ -50,4 +45,3 @@ docs/      DESIGN.md (rules + screens), ISSUES.md (task list), screenshots/
 
 - [ ] Mid-sem build: classes, constructors/destructors, composition, friend, `this`, dynamic memory, operator overloading
 - [ ] Final build: inheritance, virtual functions, templates, STL, streams, exceptions, file save/load
-- [ ] Report (screenshots in `docs/screenshots/`)

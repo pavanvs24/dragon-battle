@@ -1,4 +1,3 @@
-// Move.cpp - Owner: Member A
 #include "Move.h"
 
 Move::Move(const std::string& name, int power, int cooldown)

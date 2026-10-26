@@ -1,10 +1,8 @@
-// Move.h - Owner: Member A
 #ifndef MOVE_H
 #define MOVE_H
 
 #include <string>
 
-// One attack a dragon can perform.
 // Dragon uses it through COMPOSITION (a Dragon "has" Moves).
 class Move {
 private:

@@ -1,4 +1,3 @@
-// main.cpp - Owner: Member D
 #include "Game.h"
 
 int main() {

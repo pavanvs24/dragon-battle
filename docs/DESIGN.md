@@ -1,4 +1,4 @@
-# Design: Elemental Drakes
+# Design: Dragon Battle
 
 Single source of truth for rules, screens and class responsibilities. If the code and this
 file disagree, fix one of them in a PR instead of letting them drift.
@@ -78,10 +78,18 @@ the named and copy constructors do.
 ### First run
 
 ```
-=== ELEMENTAL DRAKES ===
-Enter your trainer name: _
-Pick 2 starter dragons from the catalog:
- 1. Ember (Fire)  ATK 26 DEF 7 ...
++-----------------+
+|  DRAGON BATTLE  |
++-----------------+
+
+Enter your trainer name: Zap
+
+Welcome Zap !
+Now, let's get your Starter Dragons set up !
+
+No. Name        Element     HP      ATK     DEF     
+----------------------------------------------------
+1   Ember       Fire        100     26      7        
  ...
 ```
 
@@ -113,8 +121,8 @@ Invalid input: re-prompt (an exception in the final).
 ### End of battle
 
 ```
-*** STAGE CLEARED! *** Turns: 12 | All dragons are now level 2
-1. Next stage  2. Main menu
+ - Stage 1 Cleared !
+ - Your Dragons grew stronger !
 ```
 
 ### Breed menu
@@ -140,9 +148,3 @@ Mid-sem covers only up to operator overloading. Don't build `final` items early.
 | Streams, manipulators | `setw`/`setfill` stat tables, save/load | D | final |
 | Exceptions | `InvalidMoveException`, `DeadDragonException`, re-throw | C | final |
 | Java unit (applets, GUI, threads, networking, DB) | see open questions | all | final |
-
-## 8. Open questions (settle early)
-
-1. **Project title**: must be unique in the class.
-2. **Java unit**: the syllabus' last unit is Java. Ask the faculty whether the final may stay in C++ or needs a Java part.
-3. **Breeding rules** above are defaults; change them here first if the group disagrees.

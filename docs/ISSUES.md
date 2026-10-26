@@ -44,8 +44,3 @@ Labels: `midsem` or `final`, plus `member-A` to `member-D`. Everything below is 
 - [ ] D8 Breed menu
 - [ ] D9 Integration and bug fixing (Day 4); keep `make` green
 - [ ] D10 `final`: save/load `save.dat`, `setw`/`setfill` tables
-
-## Everyone
-- [ ] S1 Run each of your features and save a screenshot to `docs/screenshots/`
-- [ ] S2 Write the report section(s) for your own concepts (snippet + screenshot + one line on the game feature)
-- [ ] S3 D assembles the report; source code goes in the annexure

@@ -1,4 +1,3 @@
-// Dragon.h - Owner: Member A
 #ifndef DRAGON_H
 #define DRAGON_H
 
@@ -6,7 +5,6 @@
 #include <string>
 #include "Move.h"
 
-// A battling dragon. Rules (damage, defend, level up, breeding) are in docs/DESIGN.md.
 class Dragon {
 private:
     std::string name;

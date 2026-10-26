@@ -1,5 +1,12 @@
 # Git basics for this project
 
+## Branches
+
+| Branch | Purpose |
+|---|---|
+| `main` | The official, always-working version. Changes arrive only through pull requests |
+| `feature/dragon`, `feature/player`, `feature/battle`, `feature/game` | One branch per member for their own files (A, B, C, D) |
+| `feature/game-latest` | Final polish: comment clean-up, final screenshots and updated documents |
 
 ## Make your own branch (once)
 
@@ -28,7 +35,7 @@ Commit small and often, with a message that says what you did (not "update" or "
 2. Ask a teammate to look at it and click **Merge pull request**.
 3. Everyone then runs `git checkout main` and `git pull` (or `git pull origin main` from their branch).
 
-Merge only when your code compiles.
+Merge only when your code compiles. The build command is in the [README](README.md#build-and-run).
 
 ## Rules
 

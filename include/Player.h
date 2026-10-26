@@ -1,4 +1,3 @@
-// Player.h - Owner: Member B
 #ifndef PLAYER_H
 #define PLAYER_H
 
@@ -6,7 +5,6 @@
 #include <string>
 #include "Dragon.h"
 
-// A trainer: you, or an enemy. Owns a dynamic array of dragons (the "stable").
 class Player {
 private:
     std::string name;

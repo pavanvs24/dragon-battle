@@ -1,4 +1,3 @@
-// Dragon.cpp - Owner: Member A
 #include "Dragon.h"
 using namespace std;
 

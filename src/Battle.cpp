@@ -1,4 +1,3 @@
-// Battle.cpp - Owner: Member C
 #include <cstdlib>
 #include "Battle.h"
 #include "Utils.h"
@@ -173,9 +172,9 @@ void Battle::switchIfFainted(Player &who, int &active)
         return;
     }
     int next = who.firstLivingIndex();
+    std::cout << "\n - " << who.getDragon(active).getName() << " fainted!\n";
     if (next != -1)
     {   
-        std::cout << "\n - " << who.getDragon(active).getName() << " fainted!\n";
         active = next;
         std::cout << " - " << who.getDragon(next).getName() << " enters the battle arena!\n\n";
     }
